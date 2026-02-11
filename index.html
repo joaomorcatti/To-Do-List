@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <aside class="sideBar">
+        <div class="sidebar-header">
+          <h2>To-Do List</h2>
+        </div>
+      </aside>
+
+      <div id="dTask">
+        <label for="taskName">Task: </label> <br />
+        <input type="text" name="iTask" id="iTask" required />
+        <select name="tags" id="tags"></select>
+        <button id="add" onclick="addTask()">+</button>
+      </div>
+      <p>Lista das tarefas</p>
+      <div id="dList"></div>
+      <script src="task.js"></script>
+    </div>
+  </body>
+</html>
