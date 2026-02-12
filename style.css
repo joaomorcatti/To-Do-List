@@ -7,14 +7,14 @@ header {
   text-align: center;
 }
 
-div#dTask {
+#dTask {
   border-radius: 10px;
   padding: 10px;
   width: 300px;
   margin: auto;
 }
 
-input#iTask {
+#iTask {
   margin: auto;
 }
 
@@ -23,10 +23,17 @@ input#iTask {
   border-radius: 5px;
   padding: 5px;
   margin-bottom: 10px;
+}
+
+.taskItem:hover {
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.699);
 }
 
 .bDel:hover {
   background-color: rgb(237, 56, 56);
   overflow: visible;
+}
+
+.bDel {
+  position: absolute;
 }

@@ -18,7 +18,11 @@ function confirmDelete() {
 
 function deleteTask() {
   if (confirmDelete()) {
-    console.log("Task deletada.");
+    // let getId =
+    // let delTask = document.getElementById();
+    // if (delTask) {
+    //   delTask.remove();
+    // }
   } else {
     console.log("Task não deletada.");
   }
@@ -51,12 +55,15 @@ function task(text, taskItem) {
   taskItem.appendChild(bDel);
 }
 
+let rId = 0;
 function addTask() {
   let iText = document.querySelector("input#iTask");
   let local = document.querySelector("div#dList");
   let taskItem = document.createElement("li");
 
   taskText = iText.value; // Preciso declarar em uma variavel diferente, para poder limprar e usar o .focus().
+  rId++;
+  taskItem.id = rId;
   task(taskText, taskItem);
 
   if (isValidText(taskText)) {
