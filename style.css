@@ -29,11 +29,16 @@ header {
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.699);
 }
 
+.sText {
+  padding-left: 5px;
+  padding-right: 15px;
+}
+
+.sTag {
+  padding-right: 15px;
+}
+
 .bDel:hover {
   background-color: rgb(237, 56, 56);
   overflow: visible;
-}
-
-.bDel {
-  position: absolute;
 }

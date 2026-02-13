@@ -7,22 +7,31 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="container">
+    <div class="container-main">
       <aside class="sideBar">
         <div class="sidebar-header">
           <h2>To-Do List</h2>
         </div>
+        <div class="editor">
+          <p>Tags:</p>
+          <input type="text" name="iTag" id="iTag" />
+          <button onclick="addTag()">+</button>
+        </div>
       </aside>
 
-      <div id="dTask">
-        <p>Task:</p>
-        <input type="text" name="iTask" id="iTask" required />
-        <select name="tags" id="tags"></select>
-        <button id="add" onclick="addTask()">+</button>
+      <div class="container-task">
+        <div id="dTask">
+          <p>Task:</p>
+          <input type="text" name="iTask" id="iTask" required />
+          <select name="tags" id="sTag">
+            <option>Selecione uma Tag</option>
+          </select>
+          <button id="add" onclick="addTask()">+</button>
+        </div>
+        <p>Lista das tarefas</p>
+        <div id="dList"></div>
+        <script src="task.js"></script>
       </div>
-      <p>Lista das tarefas</p>
-      <div id="dList"></div>
-      <script src="task.js"></script>
     </div>
   </body>
 </html>
