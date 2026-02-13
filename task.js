@@ -2,6 +2,7 @@ function isValidText(text) {
   if (text.trim() != "") {
     return true;
   } else {
+    console.log("[Erro] Campo de texto vazio!");
     return false;
   }
 }
@@ -27,6 +28,18 @@ function deleteTask() {
   } else {
     console.log("Task não deletada.");
   }
+}
+
+// cleanInput ou resetInput - A definir, porque na pratica eu estou inserindo um texto no caso das tags, então não seria clean
+function cleanInput(element, text = "", useFocus = true) {
+  element.value = text;
+  if (useFocus) {
+    element.focus();
+  }
+}
+
+function inputForText(element) {
+  return element.value;
 }
 
 function task(text, tag, taskItem) {
@@ -62,8 +75,9 @@ function addTask() {
   let local = document.querySelector("div#dList");
   let sTag = document.querySelector("select#sTag");
   let taskItem = document.createElement("li");
-  taskText = iText.value; // Preciso declarar em uma variavel diferente, para poder limprar e usar o .focus().
-  tagText = sTag.value;
+
+  taskText = inputForText(iText); // Preciso declarar em uma variavel diferente, para poder limprar e usar o .focus().
+  tagText = inputForText(sTag);
 
   if (isValidText(taskText)) {
     rId++;
@@ -71,28 +85,23 @@ function addTask() {
     task(taskText, tagText, taskItem);
 
     local.appendChild(taskItem);
-  } else {
-    console.log("[Erro] Campo de task vazio!");
   }
 
-  iText.value = "";
-  sTag.value = "Selecione uma Tag";
-  iText.focus();
+  cleanInput(iText);
+  cleanInput(sTag, "Selecione uma Tag", false);
 }
 
 function addTag() {
   let iTag = document.querySelector("input#iTag");
   let sTag = document.querySelector("select#sTag");
-  tagText = iTag.value;
+
+  tagText = inputForText(iTag);
 
   if (isValidText(tagText)) {
     let tag = document.createElement("option");
     tag.text = `${tagText}`;
     sTag.appendChild(tag);
-  } else {
-    console.log("[ERRO] Campo de tag vazio!");
   }
 
-  iTag.value = "";
-  iTag.focus();
+  cleanInput(iTag);
 }

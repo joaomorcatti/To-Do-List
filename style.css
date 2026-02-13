@@ -36,6 +36,7 @@ header {
 
 .sTag {
   padding-right: 15px;
+  color: red;
 }
 
 .bDel:hover {
