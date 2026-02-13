@@ -18,11 +18,12 @@ function confirmDelete() {
 
 function deleteTask() {
   if (confirmDelete()) {
-    // let getId =
-    // let delTask = document.getElementById();
-    // if (delTask) {
-    //   delTask.remove();
-    // }
+    let delTask = document.querySelector("button.bDel");
+    let paiDel = delTask.parentElement;
+    console.log(paiDel);
+    if (paiDel) {
+      paiDel.remove();
+    }
   } else {
     console.log("Task não deletada.");
   }
@@ -60,13 +61,13 @@ function addTask() {
   let iText = document.querySelector("input#iTask");
   let local = document.querySelector("div#dList");
   let taskItem = document.createElement("li");
-
   taskText = iText.value; // Preciso declarar em uma variavel diferente, para poder limprar e usar o .focus().
-  rId++;
-  taskItem.id = rId;
-  task(taskText, taskItem);
 
   if (isValidText(taskText)) {
+    rId++;
+    taskItem.id = rId;
+    task(taskText, taskItem);
+
     local.appendChild(taskItem);
   } else {
     console.log("[Erro] Campo vazio");
