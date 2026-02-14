@@ -13,6 +13,7 @@ function confirmDelete() {
   if (res) {
     return true;
   } else {
+    console.log("Task não deletada.");
     return false;
   }
 }
@@ -25,8 +26,6 @@ function deleteTask() {
     if (paiDel) {
       paiDel.remove();
     }
-  } else {
-    console.log("Task não deletada.");
   }
 }
 
@@ -51,7 +50,7 @@ function task(text, tag, taskItem) {
   taskItem.className = "taskItem";
   iCheck.className = "iCheck";
   sText.className = "sText";
-  sTag.className = "sTag";
+  sTag.className = "sTag-item";
   bDel.className = "bDel";
 
   iCheck.type = "checkbox";
@@ -71,9 +70,9 @@ function task(text, tag, taskItem) {
 
 let rId = 0;
 function addTask() {
-  let iText = document.querySelector("input#iTask");
-  let local = document.querySelector("div#dList");
-  let sTag = document.querySelector("select#sTag");
+  let iText = document.querySelector("input.iTask");
+  let local = document.querySelector("div.container-task");
+  let sTag = document.querySelector("select.sTag");
   let taskItem = document.createElement("li");
 
   taskText = inputForText(iText); // Preciso declarar em uma variavel diferente, para poder limprar e usar o .focus().
@@ -92,15 +91,18 @@ function addTask() {
 }
 
 function addTag() {
-  let iTag = document.querySelector("input#iTag");
-  let sTag = document.querySelector("select#sTag");
+  let iTag = document.querySelector("input.iTag");
+  let sTag = document.querySelector("select.sTag");
+  let dTags = document.querySelector("div.sidebar-tags");
 
   tagText = inputForText(iTag);
 
   if (isValidText(tagText)) {
-    let tag = document.createElement("option");
-    tag.text = `${tagText}`;
-    sTag.appendChild(tag);
+    let oTag = document.createElement("option");
+
+    oTag.text = `${tagText}`;
+
+    sTag.appendChild(oTag);
   }
 
   cleanInput(iTag);

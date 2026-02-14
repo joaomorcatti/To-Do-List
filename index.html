@@ -12,26 +12,39 @@
         <div class="sidebar-header">
           <h2>To-Do List</h2>
         </div>
-        <div class="editor">
-          <p>Tags:</p>
-          <input type="text" name="iTag" id="iTag" />
-          <button onclick="addTag()">+</button>
+
+        <div class="sidebar-controls">
+          <input
+            type="text"
+            name="iTag"
+            class="iTag"
+            placeholder="Digite a Tag"
+          />
+          <button class="tag-add" onclick="addTag()">+</button>
         </div>
+
+        <div class="sidebar-tags"></div>
       </aside>
 
-      <div class="container-task">
-        <div id="dTask">
+      <main class="main-content">
+        <div class="task-header">
           <p>Task:</p>
-          <input type="text" name="iTask" id="iTask" required />
-          <select name="tags" id="sTag">
+          <input
+            type="text"
+            name="iTask"
+            class="iTask"
+            placeholder="Digite a tarefa"
+            required
+          />
+          <select name="tags" class="sTag">
             <option>Selecione uma Tag</option>
           </select>
-          <button id="add" onclick="addTask()">+</button>
+          <button class="add" onclick="addTask()">+</button>
         </div>
-        <p>Lista das tarefas</p>
-        <div id="dList"></div>
+
+        <div class="container-task"></div>
         <script src="task.js"></script>
-      </div>
+      </main>
     </div>
   </body>
 </html>
