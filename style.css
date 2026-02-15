@@ -243,3 +243,48 @@ body {
   box-shadow: 1px 1px 0 black;
   transform: translate(1.5px, 2px);
 }
+
+/* COMPLETED TASK */
+.completed-sText {
+  text-decoration: line-through;
+  opacity: 0.5;
+  color: #86868b;
+}
+
+.completed-sTag-item {
+  padding: 0.3rem;
+  font-size: 0.9rem;
+  border: 1px solid #ccc;
+  border-radius: 0.3rem;
+  background-color: white;
+
+  text-decoration: line-through;
+  opacity: 0.5;
+  color: #86868b;
+}
+
+.completed-bDel {
+  padding: 0.5rem 0.9rem;
+  font-size: 1rem;
+  border: 1.5px solid #000;
+  border-radius: 0.5rem;
+  box-shadow: 2.5px 3px 0 #000;
+  outline: none;
+  transition: ease 0.25s;
+  background-color: white;
+  cursor: pointer;
+  line-height: 1;
+
+  opacity: 0.5;
+}
+
+.completed-bDel:hover {
+  box-shadow: 4px 5px 0 black;
+  background-color: rgb(237, 56, 56);
+  transform: translate(-1px, -1px);
+}
+
+.completed-bDel:active {
+  box-shadow: 1px 1px 0 black;
+  transform: translate(1.5px, 2px);
+}

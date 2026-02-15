@@ -56,6 +56,18 @@ function task(text, tag, taskItem) {
   sTag.textContent = `${tag}`;
   bDel.textContent = "Deletar";
 
+  iCheck.addEventListener("change", function () {
+    if (iCheck.checked) {
+      sText.className = "completed-sText";
+      sTag.className = "completed-sTag-item";
+      bDel.className = "completed-bDel";
+    } else {
+      sText.className = "sText";
+      sTag.className = "sTag-item";
+      bDel.className = "bDel";
+    }
+  });
+
   bDel.addEventListener("click", function () {
     deleteTask(taskItem.id);
   });
