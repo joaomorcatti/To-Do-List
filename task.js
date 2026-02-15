@@ -7,6 +7,18 @@ function isValidText(text) {
   }
 }
 
+// cleanInput ou resetInput - A definir, porque na pratica eu estou inserindo um texto no caso das tags, então não seria clean
+function cleanInput(element, text = "", useFocus = true) {
+  element.value = text;
+  if (useFocus) {
+    element.focus();
+  }
+}
+
+function inputForText(element) {
+  return element.value;
+}
+
 function confirmDelete() {
   let res = window.confirm("Confirma deletar a task?");
 
@@ -18,27 +30,13 @@ function confirmDelete() {
   }
 }
 
-function deleteTask() {
+function deleteTask(id) {
   if (confirmDelete()) {
-    let delTask = document.querySelector("button.bDel");
-    let paiDel = delTask.parentElement;
-    console.log(paiDel);
-    if (paiDel) {
-      paiDel.remove();
+    let taskID = document.getElementById(id);
+    if (taskID) {
+      taskID.remove();
     }
   }
-}
-
-// cleanInput ou resetInput - A definir, porque na pratica eu estou inserindo um texto no caso das tags, então não seria clean
-function cleanInput(element, text = "", useFocus = true) {
-  element.value = text;
-  if (useFocus) {
-    element.focus();
-  }
-}
-
-function inputForText(element) {
-  return element.value;
 }
 
 function task(text, tag, taskItem) {
@@ -59,7 +57,7 @@ function task(text, tag, taskItem) {
   bDel.textContent = "Deletar";
 
   bDel.addEventListener("click", function () {
-    deleteTask();
+    deleteTask(taskItem.id);
   });
 
   taskItem.appendChild(iCheck);
