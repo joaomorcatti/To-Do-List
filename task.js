@@ -1,13 +1,11 @@
 function isValidText(text) {
-  if (text.trim() != "") {
-    return true;
-  } else {
+  if (text.trim() == "") {
     console.log("[Erro] Campo de texto vazio!");
     return false;
   }
+  return true;
 }
 
-// cleanInput ou resetInput - A definir, porque na pratica eu estou inserindo um texto no caso das tags, então não seria clean
 function cleanInput(element, text = "", useFocus = true) {
   element.value = text;
   if (useFocus) {
@@ -15,23 +13,8 @@ function cleanInput(element, text = "", useFocus = true) {
   }
 }
 
-function inputForText(element) {
-  return element.value;
-}
-
-function confirmDelete() {
-  let res = window.confirm("Confirma deletar a task?");
-
-  if (res) {
-    return true;
-  } else {
-    console.log("Task não deletada.");
-    return false;
-  }
-}
-
 function deleteTask(id) {
-  if (confirmDelete()) {
+  if (window.confirm("Confirma deletar a task?")) {
     let taskID = document.getElementById(id);
     if (taskID) {
       taskID.remove();
@@ -58,13 +41,13 @@ function task(text, tag, taskItem) {
 
   iCheck.addEventListener("change", function () {
     if (iCheck.checked) {
-      sText.className = "completed-sText";
-      sTag.className = "completed-sTag-item";
-      bDel.className = "completed-bDel";
+      sText.classList.add("completed-Task");
+      sTag.classList.add("completed-Task");
+      bDel.classList.add("completed-Task");
     } else {
-      sText.className = "sText";
-      sTag.className = "sTag-item";
-      bDel.className = "bDel";
+      sText.classList.remove("completed-Task");
+      sTag.classList.remove("completed-Task");
+      bDel.classList.remove("completed-Task");
     }
   });
 
@@ -85,8 +68,8 @@ function addTask() {
   let sTag = document.querySelector("select.sTag");
   let taskItem = document.createElement("li");
 
-  taskText = inputForText(iText); // Preciso declarar em uma variavel diferente, para poder limprar e usar o .focus().
-  tagText = inputForText(sTag);
+  let taskText = iText.value;
+  let tagText = sTag.value;
 
   if (isValidText(taskText)) {
     rId++;
@@ -103,9 +86,8 @@ function addTask() {
 function addTag() {
   let iTag = document.querySelector("input.iTag");
   let sTag = document.querySelector("select.sTag");
-  let dTags = document.querySelector("div.sidebar-tags");
 
-  tagText = inputForText(iTag);
+  let tagText = iTag.value;
 
   if (isValidText(tagText)) {
     let oTag = document.createElement("option");
