@@ -117,18 +117,27 @@ function addTask() {
   cleanInput(sTag, "Selecione uma Tag", false);
 }
 
+// Verificar futuramente se essa é a melhor forma de colocar 3 selects com as mesmas opções
 function addTag() {
   let iTag = document.querySelector("input.iTag");
-  let sTag = document.querySelector("select.sTag");
+  let taskTag = document.querySelector("select.sTag");
+  let listTag = document.querySelector("div.sidebar-tags");
+  let editTag = document.querySelector("select.modal-select");
 
   let tagText = iTag.value;
 
   if (isValidText(tagText)) {
-    let oTag = document.createElement("option");
+    let oTagTask = document.createElement("option");
+    let oTagList = document.createElement("option");
+    let oTagEdit = document.createElement("option");
 
-    oTag.text = tagText;
+    oTagTask.text = tagText;
+    oTagList.text = tagText;
+    oTagEdit.text = tagText;
 
-    sTag.appendChild(oTag);
+    taskTag.appendChild(oTagTask);
+    listTag.appendChild(oTagList);
+    editTag.appendChild(oTagEdit);
   }
 
   cleanInput(iTag);
