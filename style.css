@@ -39,45 +39,6 @@ body {
   border: 1px solid #e5e5e7;
 }
 
-.iTag {
-  min-width: 200px; /* Largura mínima */
-  padding: 0.6rem;
-  font-size: 1rem;
-  border: 1.5px solid #000;
-  border-radius: 0.5rem;
-  box-shadow: 2.5px 3px 0 #000;
-  outline: none;
-  transition: ease 0.25s;
-}
-
-.iTag:focus {
-  box-shadow: 5.5px 7px 0 black;
-}
-
-.tag-add {
-  padding: 0.5rem 0.9rem;
-  font-size: 1.2rem;
-  border: 1.5px solid #000;
-  border-radius: 0.5rem;
-  box-shadow: 2.5px 3px 0 #000;
-  outline: none;
-  transition: ease 0.25s;
-  background-color: white;
-  cursor: pointer;
-  font-weight: bold;
-  line-height: 1;
-}
-
-.tag-add:hover {
-  box-shadow: 4px 5px 0 black;
-  transform: translate(-1px, -1px);
-}
-
-.tag-add:active {
-  box-shadow: 1px 1px 0 black;
-  transform: translate(1.5px, 2px);
-}
-
 .main-content {
   flex: 1;
   background: white;
@@ -86,8 +47,7 @@ body {
   position: relative;
 }
 
-/* From Uiverse.io by anniekoop - Adaptado */
-.iTask {
+input:not([type="checkbox"]) {
   flex: 1; /* Cresce para preencher o espaço disponível */
   min-width: 200px; /* Largura mínima */
   padding: 0.6rem;
@@ -99,11 +59,16 @@ body {
   transition: ease 0.25s;
 }
 
-.iTask:focus {
+input:hover {
+  box-shadow: 4px 5px 0 black;
+  transform: translate(-1px, -1px);
+}
+
+input:focus {
   box-shadow: 5.5px 7px 0 black;
 }
 
-.sTag {
+select {
   max-width: 200px;
   padding: 0.6rem;
   font-size: 1rem;
@@ -122,36 +87,12 @@ body {
   padding-right: 2.5rem;
 }
 
-.sTag:focus {
+select:focus {
   box-shadow: 5.5px 7px 0 black;
 }
 
-.sTag:hover {
+select:hover {
   box-shadow: 4px 5px 0 black;
-}
-
-.add {
-  padding: 0.5rem 0.9rem;
-  font-size: 1.2rem;
-  border: 1.5px solid #000;
-  border-radius: 0.5rem;
-  box-shadow: 2.5px 3px 0 #000;
-  outline: none;
-  transition: ease 0.25s;
-  background-color: white;
-  cursor: pointer;
-  font-weight: bold;
-  line-height: 1;
-}
-
-.add:hover {
-  box-shadow: 4px 5px 0 black;
-  transform: translate(-1px, -1px);
-}
-
-.add:active {
-  box-shadow: 1px 1px 0 black;
-  transform: translate(1.5px, 2px);
 }
 
 .task-header {
@@ -207,6 +148,50 @@ body {
   box-shadow: 5px 5px 10px rgba(59, 59, 59, 0.699);
 }
 
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1.3rem;
+  height: 1.3rem;
+  flex: none;
+  flex-shrink: 0;
+  border: 1.5px solid #000;
+  border-radius: 0.3rem;
+  box-shadow: 2.5px 3px 0 #000;
+  background-color: white;
+  cursor: pointer;
+  transition: ease 0.25s;
+  position: relative;
+}
+
+input[type="checkbox"]:hover {
+  box-shadow: 4px 5px 0 black;
+  background-color: rgb(56, 164, 237);
+  transform: translate(-1px, -1px);
+}
+
+input[type="checkbox"]:active {
+  box-shadow: 1px 1px 0 black;
+  transform: translate(1.5px, 2px);
+}
+
+input[type="checkbox"]:checked {
+  background-color: rgb(56, 164, 237);
+}
+
+input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 0.25rem;
+  top: 0.05rem;
+  width: 0.35rem;
+  height: 0.65rem;
+  border: 2px solid #000;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+
 .sText {
   padding-left: 5px;
   padding-right: 15px;
@@ -220,7 +205,7 @@ body {
   background-color: white;
 }
 
-.bDel {
+button {
   padding: 0.5rem 0.9rem;
   font-size: 1rem;
   border: 1.5px solid #000;
@@ -233,15 +218,19 @@ body {
   line-height: 1;
 }
 
-.bDel:hover {
+button:hover {
   box-shadow: 4px 5px 0 black;
-  background-color: rgb(237, 56, 56);
+  background-color: rgb(56, 164, 237);
   transform: translate(-1px, -1px);
 }
 
-.bDel:active {
+button:active {
   box-shadow: 1px 1px 0 black;
   transform: translate(1.5px, 2px);
+}
+
+.bDel:hover.button:hover {
+  background-color: rgb(237, 56, 56);
 }
 
 /* COMPLETED TASK */
@@ -251,6 +240,6 @@ body {
   color: #86868b;
 }
 
-.bDel.completed-Task {
+.button.completed-Task {
   text-decoration: none;
 }
