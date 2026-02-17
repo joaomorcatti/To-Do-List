@@ -20,7 +20,7 @@
             class="iTag"
             placeholder="Digite a Tag"
           />
-          <button class="tag-add" onclick="addTag()">+</button>
+          <button onclick="addTag()">+</button>
         </div>
 
         <div class="sidebar-tags"></div>
@@ -40,12 +40,42 @@
           <select name="tags" class="sTag">
             <option>Selecione uma Tag</option>
           </select>
-          <button class="add" onclick="addTask()">+</button>
+          <button onclick="addTask()">+</button>
         </div>
 
         <div class="container-task"></div>
         <script src="task.js"></script>
       </main>
+
+      <div class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Editar Task</h2>
+          </div>
+
+          <div class="modal-field">
+            <label for="editTaskInput">Task</label>
+            <input
+              type="text"
+              class="modal-input"
+              placeholder="Edite sua task"
+            />
+          </div>
+
+          <div class="modal-field">
+            <label for="editTagSelect">Tag</label>
+            <select class="modal-select">
+              <option>Selecione uma Tag</option>
+            </select>
+          </div>
+
+          <div class="modal-buttons">
+            <button class="modal-cancel">Cancel</button>
+            <button class="modal-save">Save</button>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>

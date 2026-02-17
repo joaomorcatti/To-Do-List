@@ -13,6 +13,32 @@ function cleanInput(element, text = "", useFocus = true) {
   }
 }
 
+function editTask(task, tag) {
+  let modal = document.querySelector("div.modal");
+  let taskEdit = document.querySelector("input.modal-input");
+  let tagEdit = document.querySelector("select.modal-select");
+  let save = document.querySelector("button.modal-save");
+  let cancel = document.querySelector("button.modal-cancel");
+
+  taskEdit.value = task.textContent;
+  tagEdit.value = tag.textContent;
+
+  modal.classList.add("show");
+
+  save.addEventListener("click", function () {
+    let newTask = taskEdit.value;
+    let newTag = tagEdit.value;
+
+    task.textContent = newTask;
+    tag.textContent = newTag;
+
+    modal.classList.remove("show");
+  });
+  cancel.addEventListener("click", function () {
+    modal.classList.remove("show");
+  });
+}
+
 function deleteTask(id) {
   if (window.confirm("Confirma deletar a task?")) {
     let taskID = document.getElementById(id);
@@ -26,17 +52,20 @@ function task(text, tag, taskItem) {
   let iCheck = document.createElement("input");
   let sText = document.createElement("span");
   let sTag = document.createElement("span");
+  let bEdit = document.createElement("button");
   let bDel = document.createElement("button");
 
   taskItem.className = "taskItem";
   iCheck.className = "iCheck";
   sText.className = "sText";
   sTag.className = "sTag-item";
+  bEdit.className = "bEdit";
   bDel.className = "bDel";
 
   iCheck.type = "checkbox";
-  sText.textContent = `${text}`;
-  sTag.textContent = `${tag}`;
+  sText.textContent = text;
+  sTag.textContent = tag;
+  bEdit.textContent = "Editar";
   bDel.textContent = "Deletar";
 
   iCheck.addEventListener("change", function () {
@@ -51,6 +80,10 @@ function task(text, tag, taskItem) {
     }
   });
 
+  bEdit.addEventListener("click", function () {
+    editTask(sText, sTag);
+  });
+
   bDel.addEventListener("click", function () {
     deleteTask(taskItem.id);
   });
@@ -58,6 +91,7 @@ function task(text, tag, taskItem) {
   taskItem.appendChild(iCheck);
   taskItem.appendChild(sText);
   taskItem.appendChild(sTag);
+  taskItem.appendChild(bEdit);
   taskItem.appendChild(bDel);
 }
 
@@ -92,7 +126,7 @@ function addTag() {
   if (isValidText(tagText)) {
     let oTag = document.createElement("option");
 
-    oTag.text = `${tagText}`;
+    oTag.text = tagText;
 
     sTag.appendChild(oTag);
   }
