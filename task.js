@@ -1,3 +1,5 @@
+let tasksSave = [];
+
 function isValidText(text) {
   if (text.trim() == "") {
     console.log("[Erro] Campo de texto vazio!");
@@ -13,7 +15,8 @@ function cleanInput(element, text = "", useFocus = true) {
   }
 }
 
-function editTask(task, tag) {
+// Verificar futuramente bug do "addEventListener"
+function editTask(id, task, tag) {
   let modal = document.querySelector("div.modal");
   let taskEdit = document.querySelector("input.modal-input");
   let tagEdit = document.querySelector("select.modal-select");
@@ -32,6 +35,16 @@ function editTask(task, tag) {
     task.textContent = newTask;
     tag.textContent = newTag;
 
+    let taskToUpdate = tasksSave.find((i) => i.id === id);
+    if (taskToUpdate) {
+      taskToUpdate.task = newTask;
+      taskToUpdate.tag = newTag;
+    } else {
+      console.log(
+        `[ERRO] ID não encontrado. \nTask ID: ${id} \nLocal save ID: ${tasksSave[id].id}`,
+      );
+    }
+
     modal.classList.remove("show");
   });
   cancel.addEventListener("click", function () {
@@ -45,6 +58,9 @@ function deleteTask(id) {
     if (taskID) {
       taskID.remove();
     }
+
+    tasksSave = tasksSave.filter((i) => i.id !== id);
+    console.log("Tasks deletada - ID: ", id);
   }
 }
 
@@ -81,7 +97,7 @@ function task(text, tag, taskItem) {
   });
 
   bEdit.addEventListener("click", function () {
-    editTask(sText, sTag);
+    editTask(taskItem.id, sText, sTag);
   });
 
   bDel.addEventListener("click", function () {
@@ -95,7 +111,7 @@ function task(text, tag, taskItem) {
   taskItem.appendChild(bDel);
 }
 
-let rId = 0;
+let rId = -1;
 function addTask() {
   let iText = document.querySelector("input.iTask");
   let local = document.querySelector("div.container-task");
@@ -110,6 +126,14 @@ function addTask() {
     taskItem.id = rId;
     task(taskText, tagText, taskItem);
 
+    let taskData = {
+      id: taskItem.id,
+      check: false,
+      task: taskText,
+      tag: tagText,
+    };
+
+    tasksSave.push(taskData);
     local.appendChild(taskItem);
   }
 
@@ -141,4 +165,8 @@ function addTag() {
   }
 
   cleanInput(iTag);
+}
+
+function test() {
+  console.log(tasksSave);
 }
