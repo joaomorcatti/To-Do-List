@@ -15,41 +15,62 @@ function cleanInput(element, text = "", useFocus = true) {
   }
 }
 
-// Verificar futuramente bug do "addEventListener"
-function editTask(id, task, tag) {
+// Usando variaveis globais para identificar qual a task e tag que estão sendo editadas
+// e não ter duplicidade de eventos
+let currentIdEdited = null;
+let currentTaskEdited = null;
+let currentTagEdited = null;
+
+// Executa os "addEventListener" após estár tudo pronto.
+document.addEventListener("DOMContentLoaded", function () {
   let modal = document.querySelector("div.modal");
   let taskEdit = document.querySelector("input.modal-input");
   let tagEdit = document.querySelector("select.modal-select");
   let save = document.querySelector("button.modal-save");
   let cancel = document.querySelector("button.modal-cancel");
 
-  taskEdit.value = task.textContent;
-  tagEdit.value = tag.textContent;
-
-  modal.classList.add("show");
-
   save.addEventListener("click", function () {
-    let newTask = taskEdit.value;
-    let newTag = tagEdit.value;
+    if (currentTaskEdited && currentTagEdited) {
+      let newTask = taskEdit.value;
+      let newTag = tagEdit.value;
 
-    task.textContent = newTask;
-    tag.textContent = newTag;
+      if (isValidText(newTask)) {
+        currentTaskEdited.textContent = newTask;
+        currentTagEdited.textContent = newTag;
 
-    let taskToUpdate = tasksSave.find((i) => i.id === id);
-    if (taskToUpdate) {
-      taskToUpdate.task = newTask;
-      taskToUpdate.tag = newTag;
-    } else {
-      console.log(
-        `[ERRO] ID não encontrado. \nTask ID: ${id} \nLocal save ID: ${tasksSave[id].id}`,
-      );
+        let taskToUpdate = tasksSave.find((i) => i.id === currentIdEdited);
+        if (taskToUpdate) {
+          taskToUpdate.task = newTask;
+          taskToUpdate.tag = newTag;
+        } else {
+          console.log(
+            `[ERRO] ID não encontrado. \nTask ID: ${currentIdEdited} \nLocal save ID: ${tasksSave[currentIdEdited].id}`,
+          );
+        }
+
+        modal.classList.remove("show");
+      }
     }
-
-    modal.classList.remove("show");
   });
   cancel.addEventListener("click", function () {
     modal.classList.remove("show");
   });
+});
+
+function editTask(id, task, tag) {
+  let modal = document.querySelector("div.modal");
+  let taskEdit = document.querySelector("input.modal-input");
+  let tagEdit = document.querySelector("select.modal-select");
+
+  // Define a tag que vai ser editada
+  currentIdEdited = id;
+  currentTaskEdited = task;
+  currentTagEdited = tag;
+  console.log(`ID: ${id} \ncurrentIdEdited ${parseInt(currentIdEdited)}`);
+  taskEdit.value = task.textContent;
+  tagEdit.value = tag.textContent;
+
+  modal.classList.add("show");
 }
 
 function deleteTask(id) {
