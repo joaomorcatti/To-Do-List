@@ -111,7 +111,7 @@ function task(text, tag, taskItem) {
   taskItem.appendChild(bDel);
 }
 
-let rId = -1;
+let rId = 0;
 function addTask() {
   let iText = document.querySelector("input.iTask");
   let local = document.querySelector("div.container-task");
@@ -165,8 +165,4 @@ function addTag() {
   }
 
   cleanInput(iTag);
-}
-
-function test() {
-  console.log(tasksSave);
 }
