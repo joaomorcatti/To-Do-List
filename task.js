@@ -43,9 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
           taskToUpdate.task = newTask;
           taskToUpdate.tag = newTag;
         } else {
-          console.log(
-            `[ERRO] ID não encontrado. \nTask ID: ${currentIdEdited} \nLocal save ID: ${tasksSave[currentIdEdited].id}`,
-          );
+          console.log(`[ERRO] ID não encontrado`);
         }
 
         modal.classList.remove("show");
@@ -66,7 +64,7 @@ function editTask(id, task, tag) {
   currentIdEdited = id;
   currentTaskEdited = task;
   currentTagEdited = tag;
-  console.log(`ID: ${id} \ncurrentIdEdited ${parseInt(currentIdEdited)}`);
+
   taskEdit.value = task.textContent;
   tagEdit.value = tag.textContent;
 
@@ -110,10 +108,20 @@ function task(text, tag, taskItem) {
       sText.classList.add("completed-Task");
       sTag.classList.add("completed-Task");
       bDel.classList.add("completed-Task");
+
+      let taskToUpdate = tasksSave.find((i) => i.id === taskItem.id);
+      if (taskToUpdate) {
+        taskToUpdate.check = true;
+      }
     } else {
       sText.classList.remove("completed-Task");
       sTag.classList.remove("completed-Task");
       bDel.classList.remove("completed-Task");
+
+      let taskToUpdate = tasksSave.find((i) => i.id === taskItem.id);
+      if (taskToUpdate) {
+        taskToUpdate.check = false;
+      }
     }
   });
 
