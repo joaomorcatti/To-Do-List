@@ -1,4 +1,5 @@
 let tasksSave = [];
+let tagsSave = [];
 
 function isValidText(text) {
   if (text.trim() == "") {
@@ -42,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (taskToUpdate) {
           taskToUpdate.task = newTask;
           taskToUpdate.tag = newTag;
-          saveLocalStorage();
+          saveTaskLocalStorage();
         } else {
           console.log(`[ERRO] ID não encontrado`);
         }
@@ -79,7 +80,7 @@ function deleteTask(id) {
     }
 
     tasksSave = tasksSave.filter((i) => i.id !== id);
-    saveLocalStorage();
+    saveTaskLocalStorage();
   }
 }
 
@@ -115,7 +116,7 @@ function task(taskItem, check, text, tag) {
       if (taskToUpdate) {
         taskToUpdate.check = true;
       }
-      saveLocalStorage();
+      saveTaskLocalStorage();
     } else {
       sText.classList.remove("completed-Task");
       sTag.classList.remove("completed-Task");
@@ -126,7 +127,7 @@ function task(taskItem, check, text, tag) {
       if (taskToUpdate) {
         taskToUpdate.check = false;
       }
-      saveLocalStorage();
+      saveTaskLocalStorage();
     }
   });
 
@@ -177,7 +178,7 @@ function addTask() {
 
     tasksSave.push(taskData);
     local.appendChild(taskItem);
-    saveLocalStorage();
+    saveTaskLocalStorage();
   }
 
   cleanInput(iText);
@@ -204,30 +205,68 @@ function addTag() {
     taskTag.appendChild(oTagTask);
     listTag.appendChild(oTagList);
     editTag.appendChild(oTagEdit);
+
+    let tagData = {
+      tag: tagText,
+    };
+    tagsSave.push(tagData);
+    saveTagLocalStorage();
   }
 
   cleanInput(iTag);
 }
 
-function saveLocalStorage() {
+function saveTaskLocalStorage() {
   localStorage.setItem("tasksSave_json", JSON.stringify(tasksSave));
   console.log("Tasks savo no LocalStorage");
 }
 
-function loadLocalStorage(local) {
-  let storage = localStorage.getItem("tasksSave_json");
+function saveTagLocalStorage() {
+  localStorage.setItem("tagsSave_json", JSON.stringify(tagsSave));
+  console.log("Tags savo no LocalStorage");
+}
 
-  if (storage === null) {
+function loadLocalStorage(local) {
+  let storageTask = localStorage.getItem("tasksSave_json");
+  let storageTag = localStorage.getItem("tagsSave_json");
+
+  let taskTag = document.querySelector("select.sTag");
+  let listTag = document.querySelector("div.sidebar-tags");
+  let editTag = document.querySelector("select.modal-select");
+
+  if (storageTask === null || storageTag === null) {
     console.log("[INFO] - LocalStorage vazio");
   } else {
-    storage = JSON.parse(storage);
-    tasksSave = storage;
+    storageTask = JSON.parse(storageTask);
+    tasksSave = storageTask;
 
-    for (let i = 0; i < storage.length; i++) {
+    for (let i = 0; i < storageTask.length; i++) {
       let taskItem = document.createElement("li");
-      taskItem.id = storage[i].id;
-      task(taskItem, storage[i].check, storage[i].task, storage[i].tag);
+      taskItem.id = storageTask[i].id;
+      task(
+        taskItem,
+        storageTask[i].check,
+        storageTask[i].task,
+        storageTask[i].tag,
+      );
       local.appendChild(taskItem);
+    }
+
+    storageTag = JSON.parse(storageTag);
+    tagsSave = storageTag;
+
+    for (let i = 0; i < storageTag.length; i++) {
+      let oTagTask = document.createElement("option");
+      let oTagList = document.createElement("option");
+      let oTagEdit = document.createElement("option");
+
+      oTagTask.text = storageTag[i].tag;
+      oTagList.text = storageTag[i].tag;
+      oTagEdit.text = storageTag[i].tag;
+
+      taskTag.appendChild(oTagTask);
+      listTag.appendChild(oTagList);
+      editTag.appendChild(oTagEdit);
     }
   }
 }
