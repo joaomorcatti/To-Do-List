@@ -234,8 +234,8 @@ function loadLocalStorage(local) {
   let listTag = document.querySelector("div.sidebar-tags");
   let editTag = document.querySelector("select.modal-select");
 
-  if (storageTask === null || storageTag === null) {
-    console.log("[INFO] - LocalStorage vazio");
+  if (storageTask === null) {
+    console.log("[INFO] - LocalStorage TASK vazio");
   } else {
     storageTask = JSON.parse(storageTask);
     tasksSave = storageTask;
@@ -251,7 +251,11 @@ function loadLocalStorage(local) {
       );
       local.appendChild(taskItem);
     }
+  }
 
+  if (storageTag === null) {
+    console.log("[INFO] - LocalStorage TAG vazio");
+  } else {
     storageTag = JSON.parse(storageTag);
     tagsSave = storageTag;
 
