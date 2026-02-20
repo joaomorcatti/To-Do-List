@@ -15,8 +15,6 @@ function cleanInput(element, text = "", useFocus = true) {
   }
 }
 
-// Usando variaveis globais para identificar qual a task e tag que estão sendo editadas
-// e não ter duplicidade de eventos
 let currentIdEdited = null;
 let currentTaskEdited = null;
 let currentTagEdited = null;
@@ -28,6 +26,9 @@ document.addEventListener("DOMContentLoaded", function () {
   let tagEdit = document.querySelector("select.modal-select");
   let save = document.querySelector("button.modal-save");
   let cancel = document.querySelector("button.modal-cancel");
+  let local = document.querySelector("div.container-task");
+
+  loadLocalStorage(local);
 
   save.addEventListener("click", function () {
     if (currentTaskEdited && currentTagEdited) {
@@ -42,6 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (taskToUpdate) {
           taskToUpdate.task = newTask;
           taskToUpdate.tag = newTag;
+          saveLocalStorage();
         } else {
           console.log(`[ERRO] ID não encontrado`);
         }
@@ -60,7 +62,6 @@ function editTask(id, task, tag) {
   let taskEdit = document.querySelector("input.modal-input");
   let tagEdit = document.querySelector("select.modal-select");
 
-  // Define a tag que vai ser editada
   currentIdEdited = id;
   currentTaskEdited = task;
   currentTagEdited = tag;
@@ -79,11 +80,11 @@ function deleteTask(id) {
     }
 
     tasksSave = tasksSave.filter((i) => i.id !== id);
-    console.log("Tasks deletada - ID: ", id);
+    saveLocalStorage();
   }
 }
 
-function task(text, tag, taskItem) {
+function task(taskItem, check, text, tag) {
   let iCheck = document.createElement("input");
   let sText = document.createElement("span");
   let sTag = document.createElement("span");
@@ -98,6 +99,7 @@ function task(text, tag, taskItem) {
   bDel.className = "bDel";
 
   iCheck.type = "checkbox";
+  iCheck.textContent = check;
   sText.textContent = text;
   sTag.textContent = tag;
   bEdit.textContent = "Editar";
@@ -107,21 +109,25 @@ function task(text, tag, taskItem) {
     if (iCheck.checked) {
       sText.classList.add("completed-Task");
       sTag.classList.add("completed-Task");
+      bEdit.classList.add("completed-Task");
       bDel.classList.add("completed-Task");
 
       let taskToUpdate = tasksSave.find((i) => i.id === taskItem.id);
       if (taskToUpdate) {
         taskToUpdate.check = true;
       }
+      saveLocalStorage();
     } else {
       sText.classList.remove("completed-Task");
       sTag.classList.remove("completed-Task");
+      bEdit.classList.remove("completed-Task");
       bDel.classList.remove("completed-Task");
 
       let taskToUpdate = tasksSave.find((i) => i.id === taskItem.id);
       if (taskToUpdate) {
         taskToUpdate.check = false;
       }
+      saveLocalStorage();
     }
   });
 
@@ -147,13 +153,21 @@ function addTask() {
   let sTag = document.querySelector("select.sTag");
   let taskItem = document.createElement("li");
 
+  let storage = localStorage.getItem("tasksSave_json");
+  storage = JSON.parse(storage);
+
   let taskText = iText.value;
   let tagText = sTag.value;
 
   if (isValidText(taskText)) {
-    rId++;
+    if (storage === null) {
+      rId++;
+    } else {
+      rId = Math.max(...storage.map((item) => item.id)) + 1;
+    }
+
     taskItem.id = rId;
-    task(taskText, tagText, taskItem);
+    task(taskItem, false, taskText, tagText);
 
     let taskData = {
       id: taskItem.id,
@@ -164,6 +178,7 @@ function addTask() {
 
     tasksSave.push(taskData);
     local.appendChild(taskItem);
+    saveLocalStorage();
   }
 
   cleanInput(iText);
@@ -194,4 +209,28 @@ function addTag() {
   }
 
   cleanInput(iTag);
+}
+
+function saveLocalStorage() {
+  localStorage.setItem("tasksSave_json", JSON.stringify(tasksSave));
+  console.log("Tasks savo no LocalStorage");
+}
+
+function loadLocalStorage(local) {
+  let storage = localStorage.getItem("tasksSave_json");
+
+  if (storage === null) {
+    console.log("[INFO] - LocalStorage vazio");
+  } else {
+    storage = JSON.parse(storage);
+    tasksSave = storage;
+
+    console.log(rId);
+    for (let i = 0; i < storage.length; i++) {
+      let taskItem = document.createElement("li");
+      taskItem.id = storage[i].id;
+      task(taskItem, storage[i].check, storage[i].task, storage[i].tag);
+      local.appendChild(taskItem);
+    }
+  }
 }
