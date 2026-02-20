@@ -19,7 +19,6 @@ let currentIdEdited = null;
 let currentTaskEdited = null;
 let currentTagEdited = null;
 
-// Executa os "addEventListener" após estár tudo pronto.
 document.addEventListener("DOMContentLoaded", function () {
   let modal = document.querySelector("div.modal");
   let taskEdit = document.querySelector("input.modal-input");
@@ -99,7 +98,7 @@ function task(taskItem, check, text, tag) {
   bDel.className = "bDel";
 
   iCheck.type = "checkbox";
-  iCheck.textContent = check;
+  iCheck.checked = check;
   sText.textContent = text;
   sTag.textContent = tag;
   bEdit.textContent = "Editar";
@@ -185,7 +184,6 @@ function addTask() {
   cleanInput(sTag, "Selecione uma Tag", false);
 }
 
-// Verificar futuramente se essa é a melhor forma de colocar 3 selects com as mesmas opções
 function addTag() {
   let iTag = document.querySelector("input.iTag");
   let taskTag = document.querySelector("select.sTag");
@@ -225,7 +223,6 @@ function loadLocalStorage(local) {
     storage = JSON.parse(storage);
     tasksSave = storage;
 
-    console.log(rId);
     for (let i = 0; i < storage.length; i++) {
       let taskItem = document.createElement("li");
       taskItem.id = storage[i].id;
