@@ -16,12 +16,19 @@ function cleanInput(element, text = "", useFocus = true) {
   }
 }
 
+function openModal(id) {
+  document.getElementById(id).classList.add("show");
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove("show");
+}
+
 let currentIdEdited = null;
 let currentTaskEdited = null;
 let currentTagEdited = null;
 
 document.addEventListener("DOMContentLoaded", function () {
-  let modal = document.querySelector("div.modal");
   let taskEdit = document.querySelector("input.modal-input");
   let tagEdit = document.querySelector("select.modal-select");
   let save = document.querySelector("button.modal-save");
@@ -48,17 +55,16 @@ document.addEventListener("DOMContentLoaded", function () {
           console.log(`[ERRO] ID não encontrado`);
         }
 
-        modal.classList.remove("show");
+        closeModal("modal-edit");
       }
     }
   });
   cancel.addEventListener("click", function () {
-    modal.classList.remove("show");
+    closeModal("modal-edit");
   });
 });
 
 function editTask(id, task, tag) {
-  let modal = document.querySelector("div.modal");
   let taskEdit = document.querySelector("input.modal-input");
   let tagEdit = document.querySelector("select.modal-select");
 
@@ -69,7 +75,7 @@ function editTask(id, task, tag) {
   taskEdit.value = task.textContent;
   tagEdit.value = tag.textContent;
 
-  modal.classList.add("show");
+  openModal("modal-edit");
 }
 
 function deleteTask(id) {
@@ -153,18 +159,14 @@ function addTask() {
   let sTag = document.querySelector("select.sTag");
   let taskItem = document.createElement("li");
 
-  let storage = localStorage.getItem("tasksSave_json");
-  storage = JSON.parse(storage);
-
   let taskText = iText.value;
   let tagText = sTag.value;
 
   if (isValidText(taskText)) {
-    if (storage === null) {
-      rId++;
-    } else {
-      rId = Math.max(...storage.map((item) => item.id)) + 1;
-    }
+    rId =
+      tasksSave.length > 0
+        ? Math.max(...tasksSave.map((item) => item.id)) + 1
+        : 1;
 
     taskItem.id = rId;
     task(taskItem, false, taskText, tagText);
