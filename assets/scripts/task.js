@@ -94,7 +94,7 @@ function task(taskItem, check, text, tag) {
   taskItem.className = "taskItem";
   iCheck.className = "iCheck";
   sText.className = "sText";
-  sTag.className = "sTag-item";
+  sTag.classList.add("sTag-item", "start-left-itens");
   bEdit.className = "bEdit";
   bDel.className = "bDel";
 
