@@ -301,6 +301,11 @@ button.completed-Task {
   font-size: 0.95rem;
 }
 
+.modal p {
+  display: inline-block;
+  line-height: 2em;
+}
+
 .modal-input,
 .modal-select {
   width: 100%;

@@ -99,7 +99,11 @@ function editTask(id, task, tag) {
   openModal("modal-edit");
 }
 
-function deleteTask(id) {
+function deleteTask(id, task, tag) {
+  let taskForDelet = document.querySelector("p.task-for-delet");
+
+  taskForDelet.textContent = task.textContent;
+
   currentIdDeleted = id;
 
   openModal("modal-delet");
@@ -157,7 +161,7 @@ function task(taskItem, check, text, tag) {
   });
 
   bDel.addEventListener("click", function () {
-    deleteTask(taskItem.id);
+    deleteTask(taskItem.id, sText, sTag);
   });
 
   taskItem.appendChild(iCheck);
