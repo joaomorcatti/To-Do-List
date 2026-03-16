@@ -16,27 +16,16 @@ function cleanInput(element, text = "", useFocus = true) {
   }
 }
 
-function openModal(id) {
-  document.getElementById(id).classList.add("show");
-}
-
-function closeModal(id) {
-  document.getElementById(id).classList.remove("show");
-}
-
 let currentIdEdited = null;
 let currentTaskEdited = null;
 let currentTagEdited = null;
 
-let currentIdDeleted = null;
-
 document.addEventListener("DOMContentLoaded", function () {
+  let modal = document.querySelector("div.modal");
   let taskEdit = document.querySelector("input.modal-input");
   let tagEdit = document.querySelector("select.modal-select");
   let save = document.querySelector("button.modal-save");
-  let cancelSave = document.querySelector("button.modal-cancel");
-  let confirmDel = document.querySelector("button.modal-confirm-del");
-  let cancelDel = document.querySelector("button.modal-cancel-del");
+  let cancel = document.querySelector("button.modal-cancel");
   let local = document.querySelector("div.container-task");
 
   loadLocalStorage(local);
@@ -59,33 +48,17 @@ document.addEventListener("DOMContentLoaded", function () {
           console.log(`[ERRO] ID não encontrado`);
         }
 
-        closeModal("modal-edit");
+        modal.classList.remove("show");
       }
     }
   });
-  cancelSave.addEventListener("click", function () {
-    closeModal("modal-edit");
-  });
-
-  confirmDel.addEventListener("click", function () {
-    if (currentIdDeleted) {
-      let taskID = document.getElementById(currentIdDeleted);
-      if (taskID) {
-        taskID.remove();
-      }
-
-      tasksSave = tasksSave.filter((i) => i.id !== currentIdDeleted);
-      saveTaskLocalStorage();
-
-      closeModal("modal-delet");
-    }
-  });
-  cancelDel.addEventListener("click", function () {
-    closeModal("modal-delet");
+  cancel.addEventListener("click", function () {
+    modal.classList.remove("show");
   });
 });
 
 function editTask(id, task, tag) {
+  let modal = document.querySelector("div.modal");
   let taskEdit = document.querySelector("input.modal-input");
   let tagEdit = document.querySelector("select.modal-select");
 
@@ -96,17 +69,19 @@ function editTask(id, task, tag) {
   taskEdit.value = task.textContent;
   tagEdit.value = tag.textContent;
 
-  openModal("modal-edit");
+  modal.classList.add("show");
 }
 
-function deleteTask(id, task, tag) {
-  let taskForDelet = document.querySelector("p.task-for-delet");
+function deleteTask(id) {
+  if (window.confirm("Confirma deletar a task?")) {
+    let taskID = document.getElementById(id);
+    if (taskID) {
+      taskID.remove();
+    }
 
-  taskForDelet.textContent = task.textContent;
-
-  currentIdDeleted = id;
-
-  openModal("modal-delet");
+    tasksSave = tasksSave.filter((i) => i.id !== id);
+    saveTaskLocalStorage();
+  }
 }
 
 function task(taskItem, check, text, tag) {
@@ -161,7 +136,7 @@ function task(taskItem, check, text, tag) {
   });
 
   bDel.addEventListener("click", function () {
-    deleteTask(taskItem.id, sText, sTag);
+    deleteTask(taskItem.id);
   });
 
   taskItem.appendChild(iCheck);
@@ -178,14 +153,18 @@ function addTask() {
   let sTag = document.querySelector("select.sTag");
   let taskItem = document.createElement("li");
 
+  let storage = localStorage.getItem("tasksSave_json");
+  storage = JSON.parse(storage);
+
   let taskText = iText.value;
   let tagText = sTag.value;
 
   if (isValidText(taskText)) {
-    rId =
-      tasksSave.length > 0
-        ? Math.max(...tasksSave.map((item) => item.id)) + 1
-        : 1;
+    if (storage === null) {
+      rId++;
+    } else {
+      rId = Math.max(...storage.map((item) => item.id)) + 1;
+    }
 
     taskItem.id = rId;
     task(taskItem, false, taskText, tagText);
