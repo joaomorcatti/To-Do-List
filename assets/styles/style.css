@@ -287,7 +287,6 @@ button.completed-Task {
 }
 
 .modal-header h2 {
-  font-family: var(--font-title);
   font-size: 1.5rem;
 }
 
@@ -300,6 +299,11 @@ button.completed-Task {
   font-weight: 600;
   margin-bottom: 8px;
   font-size: 0.95rem;
+}
+
+.modal p {
+  display: inline-block;
+  line-height: 2em;
 }
 
 .modal-input,
