@@ -59,12 +59,12 @@ document.addEventListener("DOMContentLoaded", function () {
           console.log(`[ERRO] ID não encontrado`);
         }
 
-        closeModal("modal-edit");
+        closeModal("modal-edite");
       }
     }
   });
   cancelSave.addEventListener("click", function () {
-    closeModal("modal-edit");
+    closeModal("modal-edite");
   });
 
   confirmDel.addEventListener("click", function () {
@@ -77,11 +77,11 @@ document.addEventListener("DOMContentLoaded", function () {
       tasksSave = tasksSave.filter((i) => i.id !== currentIdDeleted);
       saveTaskLocalStorage();
 
-      closeModal("modal-delet");
+      closeModal("modal-delete");
     }
   });
   cancelDel.addEventListener("click", function () {
-    closeModal("modal-delet");
+    closeModal("modal-delete");
   });
 });
 
@@ -96,17 +96,17 @@ function editTask(id, task, tag) {
   taskEdit.value = task.textContent;
   tagEdit.value = tag.textContent;
 
-  openModal("modal-edit");
+  openModal("modal-edite");
 }
 
 function deleteTask(id, task) {
-  let taskForDelet = document.querySelector("p.task-for-delet");
+  let taskForDelet = document.querySelector("span.task-for-delet");
 
   taskForDelet.textContent = task.textContent;
 
   currentIdDeleted = id;
 
-  openModal("modal-delet");
+  openModal("modal-delete");
 }
 
 function task(taskItem, check, text, tag) {
@@ -185,11 +185,10 @@ function addTask() {
   let tagText = sTag.value;
 
   if (isValidText(taskText)) {
-    if (storage === null) {
-      rId++;
-    } else {
-      rId = Math.max(...storage.map((item) => item.id)) + 1;
-    }
+    rId =
+      tasksSave.length > 0
+        ? Math.max(...tasksSave.map((item) => item.id)) + 1
+        : 1;
 
     taskItem.id = rId;
     task(taskItem, false, taskText, tagText);
