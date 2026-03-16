@@ -28,11 +28,15 @@ let currentIdEdited = null;
 let currentTaskEdited = null;
 let currentTagEdited = null;
 
+let currentIdDeleted = null;
+
 document.addEventListener("DOMContentLoaded", function () {
   let taskEdit = document.querySelector("input.modal-input");
   let tagEdit = document.querySelector("select.modal-select");
   let save = document.querySelector("button.modal-save");
-  let cancel = document.querySelector("button.modal-cancel");
+  let cancelSave = document.querySelector("button.modal-cancel");
+  let confirmDel = document.querySelector("button.modal-confirm-del");
+  let cancelDel = document.querySelector("button.modal-cancel-del");
   let local = document.querySelector("div.container-task");
 
   loadLocalStorage(local);
@@ -59,8 +63,25 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
   });
-  cancel.addEventListener("click", function () {
+  cancelSave.addEventListener("click", function () {
     closeModal("modal-edit");
+  });
+
+  confirmDel.addEventListener("click", function () {
+    if (currentIdDeleted) {
+      let taskID = document.getElementById(currentIdDeleted);
+      if (taskID) {
+        taskID.remove();
+      }
+
+      tasksSave = tasksSave.filter((i) => i.id !== currentIdDeleted);
+      saveTaskLocalStorage();
+
+      closeModal("modal-delet");
+    }
+  });
+  cancelDel.addEventListener("click", function () {
+    closeModal("modal-delet");
   });
 });
 
@@ -79,15 +100,9 @@ function editTask(id, task, tag) {
 }
 
 function deleteTask(id) {
-  if (window.confirm("Confirma deletar a task?")) {
-    let taskID = document.getElementById(id);
-    if (taskID) {
-      taskID.remove();
-    }
+  currentIdDeleted = id;
 
-    tasksSave = tasksSave.filter((i) => i.id !== id);
-    saveTaskLocalStorage();
-  }
+  openModal("modal-delet");
 }
 
 function task(taskItem, check, text, tag) {
