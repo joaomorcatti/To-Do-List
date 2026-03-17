@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-function editTask(id, taskElement, tagElement) {
+function editTaskElement(id, taskElement, tagElement) {
   let taskEdit = document.querySelector("input.modal-input");
   let tagEdit = document.querySelector("select.modal-select");
 
@@ -93,13 +93,13 @@ function editTask(id, taskElement, tagElement) {
   editingTaskElement = taskElement;
   editingTaskTag = tagElement;
 
-  taskEdit.value = task.textContent;
-  tagEdit.value = tag.textContent;
+  taskEdit.value = taskElement.textContent;
+  tagEdit.value = tagElement.textContent;
 
   openModal("modal-edite");
 }
 
-function deleteTask(id, task) {
+function deleteTaskElement(id, task) {
   let taskForDelet = document.querySelector("span.task-for-delet");
 
   taskForDelet.textContent = task.textContent;
@@ -109,7 +109,7 @@ function deleteTask(id, task) {
   openModal("modal-delete");
 }
 
-function task(taskItem, isChecked, taskText, tagText) {
+function createTaskElement(taskItem, isChecked, taskText, tagText) {
   let checkbox = document.createElement("input");
   let textSpan = document.createElement("span");
   let tagSpan = document.createElement("span");
@@ -157,11 +157,11 @@ function task(taskItem, isChecked, taskText, tagText) {
   });
 
   editButton.addEventListener("click", function () {
-    editTask(taskItem.id, textSpan, tagSpan);
+    editTaskElement(taskItem.id, textSpan, tagSpan);
   });
 
   deleteButton.addEventListener("click", function () {
-    deleteTask(taskItem.id, textSpan);
+    deleteTaskElement(taskItem.id, textSpan);
   });
 
   taskItem.appendChild(checkbox);
@@ -191,7 +191,7 @@ function addTask() {
         : 1;
 
     taskItem.id = nextId;
-    task(taskItem, false, taskText, tagText);
+    createTaskElement(taskItem, false, taskText, tagText);
 
     let taskData = {
       id: taskItem.id,
@@ -209,7 +209,7 @@ function addTask() {
   cleanInput(tagSelect, "Selecione uma Tag", false);
 }
 
-function tag(text, taskTag, listTag, editTag) {
+function createTagOptions(text, taskTag, listTag, editTag) {
   let tagTaskOption = document.createElement("option");
   let tagListOption = document.createElement("option");
   let tagEditOption = document.createElement("option");
@@ -232,7 +232,7 @@ function addTag() {
   let tagText = tagInput.value;
 
   if (isValidText(tagText)) {
-    tag(tagText, taskTag, tagList, editTag);
+    createTagOptions(tagText, taskTag, tagList, editTag);
 
     let tagData = {
       tag: tagText,
@@ -254,7 +254,7 @@ function saveTagLocalStorage() {
   console.log("Tags savo no LocalStorage");
 }
 
-function loadLocalStorage(local) {
+function loadLocalStorage(taskContainer) {
   let storageTask = localStorage.getItem("savedTasks_json");
   let storageTag = localStorage.getItem("savedTags_json");
 
@@ -271,13 +271,13 @@ function loadLocalStorage(local) {
     for (let i = 0; i < storageTask.length; i++) {
       let taskItem = document.createElement("li");
       taskItem.id = storageTask[i].id;
-      task(
+      createTaskElement(
         taskItem,
         storageTask[i].check,
         storageTask[i].task,
         storageTask[i].tag,
       );
-      local.appendChild(taskItem);
+      taskContainer.appendChild(taskItem);
     }
   }
 
