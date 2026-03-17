@@ -2,11 +2,11 @@
 
 Aplicação web para gerenciamento de tarefas com sistema de tags personalizadas e salvando os dados usando LocalStorage.
 
-<img width="1917" height="906" alt="image" src="https://github.com/user-attachments/assets/bb03193d-fef5-4d36-bf50-6ebf01a6f145" />
+<img width="1916" height="911" alt="image" src="https://github.com/user-attachments/assets/eea868e3-f76b-4b1d-9099-8fd567d663e9" />
+
 
 ## Demo:
-![Veja o vídeo de demonstração](https://github.com/user-attachments/assets/c0e4cacd-bb4b-4640-a928-83e36822d9b2)
-
+https://github.com/user-attachments/assets/f1b33859-eae8-472e-87bf-886851ccaf1b
 
 ## Funcionalidades
 
